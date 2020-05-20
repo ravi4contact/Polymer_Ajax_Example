@@ -1,0 +1,63 @@
+<head>
+  <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0.2/lib/">
+  <script src="webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="polymer/polymer.html">
+  <link rel="import" href="iron-form/iron-form.html">
+  <link rel="import" href="paper-input/paper-input.html">
+  <link rel="import" href="paper-button/paper-button.html">
+  <link rel="import" href="paper-checkbox/paper-checkbox.html">
+  <link rel = "import" href ="paper-dropdown-menu/paper-dropdown-menu.html">  
+  <link rel = "import" href = "paper-item/paper-item.html">  
+  <link rel = "import" href = "paper-listbox/paper-listbox.html">  
+  
+</head>
+<body>
+  <x-foo></x-foo>
+
+  <dom-module id="x-foo">
+    <template>
+      <style>
+        paper-button {
+          display: inline-block;
+          text-align: center;
+        }
+        paper-button:not([disabled]) {
+          background: #03a9f4;
+          color: white;
+        }
+            
+      </style>
+      <iron-form id="myForm" on-iron-form-presubmit="_presubmit">
+        <form method="post" 
+              action="//httpbin.org/post">
+              
+              <paper-input name="name" label="Name" required></paper-input>
+              <br>
+              <paper-checkbox name="subscribe" value="subscribe" checked>Subscribe</paper-checkbox>
+              <br><br>
+              <paper-checkbox name="agree" value="agree" required>Agree</paper-checkbox>
+              <br><br>
+          <paper-button on-tap="_submit">Submit</paper-button>
+        </form>
+      </iron-form>
+    </template>
+  </dom-module>
+  <script>
+    HTMLImports.whenReady(() => {
+      class XFoo extends Polymer.Element {
+        static get is() { return 'x-foo'; }
+
+        _presubmit(e) {
+         const body = this.$.myForm.request.body;
+          //body['newkey'] = ['01','02','03'];
+          console.log('presubmit body', body);
+        }
+
+        _submit() {
+          this.$.myForm.submit();
+        }
+      }
+      customElements.define(XFoo.is, XFoo);
+    });
+  </script>
+</body>
